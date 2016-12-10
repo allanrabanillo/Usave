@@ -1,9 +1,9 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity,Alert,ListView,View,Text } from 'react-native';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
-import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Text, Thumbnail ,Footer,FooterTab } from 'native-base';
+import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Thumbnail ,Footer,FooterTab } from 'native-base';
 
 
 import { Grid, Row } from 'react-native-easy-grid';
@@ -15,15 +15,17 @@ import styles from './styles';
 
 const Profile = require('../../../images/Profile.png');
 
-const QRcode = require('../../../images/Qrcode.png');
+
+
+const Server_getaccountinfo = 'http://192.168.8.101/usave/accountinfo.php';
+const server_plans = 'http://192.168.8.101/usave/plan.php';
+
 
 const {
   reset,
   pushRoute,
 } = actions;
 
-//add comment second part
-//beeeeem
 
 class Home extends Component {
 
@@ -42,12 +44,34 @@ class Home extends Component {
 
   constructor(props) {
     super(props);
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       tab1: false,
       tab2: false,
-      tab3: true,
-      tab4: false,
+      tab3: false,
+      tab4: true,
+      tab: 'Home',
+      bal: '',
+      salary: '',
+      dataSource: ds.cloneWithRows([
+            'row 1', 'row2'
+         ])
+
     };
+
+    this.getAccountinfo();
+
+    fetch(server_plans + '?acc_no=' + this.props.name)
+      .then((response) => response.json())
+      .then((responseData) => {
+        
+        for (var i = 0; i < responseData.length; i++)
+          {
+              this.setState({ dataSource: this.state.dataSource.cloneWithRows(responseData)});
+          }         
+           
+        })
+        .done();  
   }
 
   toggleTab1() {
@@ -56,7 +80,10 @@ class Home extends Component {
       tab2: false,
       tab3: false,
       tab4: false,
+      tab: 'Plans'
     });
+    this.getplans();
+   
   }
 
   toggleTab2() {
@@ -65,6 +92,7 @@ class Home extends Component {
       tab2: true,
       tab3: false,
       tab4: false,
+      tab: 'Profile'
     });
   }
 
@@ -74,6 +102,7 @@ class Home extends Component {
       tab2: false,
       tab3: true,
       tab4: false,
+      tab: 'Settings'
     });
   }
 
@@ -83,7 +112,11 @@ class Home extends Component {
       tab2: false,
       tab3: false,
       tab4: true,
+      tab: 'Home'
+
     });
+    this.getAccountinfo();
+     Alert.alert("boom",this.state.bal +" " + this.state.salary);
   }
 
 
@@ -92,17 +125,135 @@ class Home extends Component {
     this.props.pushRoute({ key: route, index: 1 }, this.props.navigation.key);
   }
 
+
+
+  // render value
+
+    renderContent() {
+
+    const { tab } = this.state
+    let content
+    switch(tab) {
+      case 'Home':
+         content = <Text>This is the content Home</Text>
+        break
+      case 'Plans':
+        content =  <View>
+        <Text>Plans</Text>
+       <View style={{}}>
+      <View style={{margin:20,flex:1,flexDirection: 'row',alignItems: 'center',justifyContent: 'center' }}>
+      </View>
+      <View style = {{backgroundColor: 'blue',padding:2,marginBottom:0}}>
+      </View>
+      </View>
+           <ListView
+            style = {styles.listContainer}
+            dataSource = {this.state.dataSource}
+            renderRow = {this.renderRow}
+         />
+         </View>
+        break
+      case 'Profile':
+        content = <Text>This is the content Profile</Text>
+        break
+      case 'Settings':
+        content = <Text>This is the content Settings</Text>
+        break
+    }
+
+    return content
+
+  }
+
+   renderTitle() {
+    const { tab } = this.state
+    let title
+    switch(tab) {
+      case 'Home':
+         title = <Title>Home</Title>
+        break
+      case 'Plans':
+        title = <Title>Plans</Title>
+        break
+      case 'Profile':
+        title =  <Title>Profile</Title>
+        break
+      case 'Settings':
+        title = <Title>Settings</Title>
+
+        break
+    }
+
+    return title
+
+  }
+
+  //render plans
+  renderRow(row) {
+  return (
+      
+      <Content style={{}}>
+      <View style={{flex:1,flexDirection: 'row',alignItems: 'center',justifyContent: 'center' }}>
+      <Text style={{color:'black',marginLeft:10,marginRight:10,fontSize:20}}>{row.p_name}</Text>
+      <Text style={{color:'black',marginLeft:10,marginRight:10}}>{row.p_money_alot}</Text>
+      <Text style={{color:'black',marginLeft:10,marginRight:10}}>{row.p_total}</Text>
+      </View>
+      <View style = {{backgroundColor: 'blue',padding:2}}>
+      </View>
+      </Content>
+      
+    
+  );
+}
+
+  // Account info
+  getAccountinfo(){
+
+    fetch(Server_getaccountinfo + '?acc_no=' + this.props.name)
+      .then((response) => response.json())
+      .then((responseData) => {
+        const emessage = responseData.emessage;
+        this.setState({bal: responseData.balance});
+        this.setState({salary: responseData.salary});
+
+         })
+        .done();  
+   
+
+  }
+  // Plans
+  getplans(){
+
+    fetch(server_plans + '?acc_no=' + this.props.name)
+      .then((response) => response.json())
+      .then((responseData) => {
+        
+        for (var i = 0; i < responseData.length; i++)
+          {
+              this.setState({ dataSource: this.state.dataSource.cloneWithRows(responseData)});
+          }         
+           
+        })
+        .done();  
+    
+
+  }
+
+
+
+
+
   render() {
     return (
  
 
       <Container theme={myTheme} style={styles.container}>
- <Header>
+         <Header>
           <Button transparent onPress={() => this.props.reset(this.props.navigation.key)}>
             <Icon name="ios-power" />
           </Button>
 
-          <Title>{(this.props.name) ? this.props.name : 'Home'}</Title>
+          {this.renderTitle()}
 
           <Button transparent onPress={this.props.openDrawer}>
             <Icon name="ios-menu" />
@@ -111,7 +262,7 @@ class Home extends Component {
 
         <Content>
          
-
+          {this.renderContent()}
           
           </Content>
 

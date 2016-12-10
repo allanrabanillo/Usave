@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image,Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
 import { Container, Content, InputGroup, Input, Button, Icon, View } from 'native-base';
@@ -12,7 +12,12 @@ const {
   replaceAt,
 } = actions;
 
-const background = require('../../../images/shadow.jpg');
+
+
+const Server_login = 'http://192.168.8.101/usave/login.php';
+
+
+const background = require('../../../images/shadow.png');
 //hello comment
 //boom comment
 class Login extends Component {
@@ -28,7 +33,9 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      acc_no: '',
+      acc_code: '',
+
     };
   }
 
@@ -37,9 +44,41 @@ class Login extends Component {
   }
 
   replaceRoute(route) {
-    this.setUser(this.state.name);
+    this.setUser(this.state.acc_no);
     this.props.replaceAt('login', { key: route }, this.props.navigation.key);
   }
+
+
+trylogin() {
+    this.setState({animating: true});
+
+    fetch(Server_login + '?acc_no=' + this.state.acc_no + '&acc_code=' + this.state.acc_code)
+      .then((response) => response.json())
+      .then((responseData) => {
+        const emessage = responseData.emessage;
+        this.setState({id: emessage});
+        if (emessage === '0') {
+         
+          Alert.alert("Login-in failed",'Your Account No or Account Code is incorrect');
+          
+        }
+        
+        else {
+           this.passall() 
+        }
+        
+      })
+
+      .done();  
+    
+
+  }
+
+  passall(){
+
+    this.replaceRoute('home');
+  }
+
 
   render() {
     return (
@@ -50,16 +89,17 @@ class Login extends Component {
               <View style={styles.bg}>
                 <InputGroup style={styles.input}>
                   <Icon name="ios-person" />
-                  <Input placeholder="EMAIL" onChangeText={name => this.setState({ name })} />
+                  <Input placeholder="EMAIL" onChangeText={acc_no => this.setState({ acc_no })} />
                 </InputGroup>
                 <InputGroup style={styles.input}>
                   <Icon name="ios-unlock-outline" />
                   <Input
                     placeholder="PASSWORD"
                     secureTextEntry
+                    onChangeText={acc_code => this.setState({ acc_code })}
                   />
                 </InputGroup>
-                <Button style={styles.btn} onPress={() => this.replaceRoute('home')}>
+                <Button style={styles.btn} onPress={() => this.trylogin()}>
                   Login
                 </Button>
               </View>

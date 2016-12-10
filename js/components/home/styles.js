@@ -19,4 +19,12 @@ module.exports = StyleSheet.create({
   mt: {
     marginTop: 18,
   },
+  listItem: {
+      fontSize: 12,
+      fontWeight: 'bold',
+      backgroundColor: 'gray',
+      padding: 10,
+      marginBottom:10,
+      
+   },
 });
