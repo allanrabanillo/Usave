@@ -14,6 +14,7 @@ const {
 
 const background = require('../../../images/shadow.jpg');
 //hello comment
+//boom comment
 class Login extends Component {
 
   static propTypes = {
