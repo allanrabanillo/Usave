@@ -13,7 +13,6 @@ import { setIndex } from '../../actions/list';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 
-const Profile = require('../../../images/Profile.png');
 
 
 
@@ -135,7 +134,7 @@ class Home extends Component {
     let content
     switch(tab) {
       case 'Home':
-         content = <View><Text>Balance: {this.state.bal}</Text><Text>Salary: {this.state.salary}</Text></View>
+         content = <View><Text style={{fontSize:20}}>Balance: {this.state.bal}</Text><Text>Salary: {this.state.salary}</Text></View>
 
         break
       case 'Plans':

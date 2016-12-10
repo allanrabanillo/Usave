@@ -25,7 +25,7 @@ module.exports = StyleSheet.create({
     paddingTop: 20,
     paddingLeft: 10,
     paddingRight: 10,
-    paddingBottom: 30,
+    paddingBottom: 80,
     bottom: 0,
   },
   input: {

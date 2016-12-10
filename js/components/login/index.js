@@ -17,7 +17,7 @@ const {
 const Server_login = 'http://192.168.2.82/usave/login.php';
 
 
-const background = require('../../../images/shadow.png');
+const background = require('../../../images/LoginForm2.jpg');
 //hello comment
 //boom comment
 class Login extends Component {
