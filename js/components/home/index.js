@@ -52,6 +52,7 @@ class Home extends Component {
       tab: 'Home',
       bal: '',
       salary: '',
+      pa_bal: '',
       dataSource: ds.cloneWithRows([
             'row 1', 'row2'
          ])
@@ -115,7 +116,6 @@ class Home extends Component {
 
     });
     this.getAccountinfo();
-     Alert.alert("boom",this.state.bal +" " + this.state.salary);
   }
 
 
@@ -134,9 +134,27 @@ class Home extends Component {
     let content
     switch(tab) {
       case 'Home':
-         content = <View style={styles.homeContainer}>
-                      <Text style={styles.bal}>Balance: {this.state.bal}</Text>
-                      <Text>Salary: {this.state.salary}</Text>
+         content = <View>
+                      <Card>
+                       <CardItem style={{backgroundColor: '#9b7bb5'}}>    
+                       <ListItem>                   
+                          <Text style={styles.bal}>Savings Account</Text>
+                          <Text note style={styles.amount}>{this.state.bal}</Text>
+                        </ListItem>
+                      </CardItem>
+                      <CardItem style={{backgroundColor: '#6bb3b5'}}>    
+                       <ListItem>                   
+                          <Text style={styles.bal}>Payroll Account</Text>
+                          <Text note style={styles.amount}>{this.state.pa_bal}</Text>
+                        </ListItem>
+                      </CardItem>
+                      <CardItem style={{backgroundColor: '#81b64c'}}>    
+                       <ListItem>                   
+                          <Text style={styles.bal}>Monthly Salary</Text>
+                          <Text note style={styles.amount}>{this.state.salary}</Text>
+                        </ListItem>
+                      </CardItem>
+                      </Card>
                     </View>
 
         break
@@ -223,6 +241,7 @@ class Home extends Component {
         const emessage = responseData.emessage;
         this.setState({bal: responseData.balance});
         this.setState({salary: responseData.salary});
+        this.setState({pa_bal: responseData.pa_balance});
 
          })
         .done();  

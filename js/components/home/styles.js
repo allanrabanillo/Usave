@@ -28,10 +28,11 @@ module.exports = StyleSheet.create({
    },
   bal: {
     fontSize: 30,
-    backgroundColor: 'lightblue',
+    color: 'white',
+   },
+  amount: {
+    marginLeft: 15,
+    fontSize: 20,
+    color: 'white',
   },
-  homeContainer: {
-    flex: 2,
-    alignItems: 'center',
-  }
 });
