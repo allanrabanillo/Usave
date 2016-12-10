@@ -6,6 +6,8 @@ import { actions } from 'react-native-navigation-redux-helpers';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Thumbnail ,Footer,FooterTab,Card,CardItem } from 'native-base';
 
 
+import ProgressBarClassic from 'react-native-progress-bar-classic';
+
 import { Grid, Row } from 'react-native-easy-grid';
 
 import { openDrawer } from '../../actions/drawer';
@@ -53,11 +55,13 @@ class Home extends Component {
       bal: '',
       salary: '',
       pa_bal: '',
+
       dataSource: ds.cloneWithRows([
             'row 1', 'row2'
          ])
 
     };
+    
 
     this.getAccountinfo();
 
@@ -73,6 +77,8 @@ class Home extends Component {
         })
         .done();  
   }
+
+
 
   toggleTab1() {
     this.setState({
@@ -215,15 +221,17 @@ class Home extends Component {
   return (
       
       <Content style={{}}>
+
       <Card>
       <CardItem>
+      
       <Text style={{color:'black',marginLeft:10,marginRight:10,fontSize:20}}>{row.p_name}</Text>
       <Text style={{color:'black',marginLeft:10,marginRight:10}}>Alloted: {row.p_money_alot}</Text>
       <Text style={{color:'black',marginLeft:10,marginRight:10}}>Goal: {row.p_total}</Text>
       <Text style={{color:'black',marginLeft:10,marginRight:10}}>Saved: {row.p_saved}</Text>
-      <Text style={{color:'black',marginLeft:10,marginRight:10}}>Percent: {row.percent}</Text>
       <Text style={{color:'black',marginLeft:10,marginRight:10}}>Remaining Amount: {row.kulang}</Text>
       <Text style={{color:'black',marginLeft:10,marginRight:10}}>Remaining Month: {row.p_month}</Text>
+      <ProgressBarClassic progress={row.percent} />
       </CardItem>
       </Card>
       </Content>

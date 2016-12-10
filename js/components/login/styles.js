@@ -41,4 +41,16 @@ module.exports = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '#250f59',
   },
+    welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  circles: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  progress: {
+    margin: 10,
+},
 });
