@@ -14,7 +14,7 @@ const {
 
 
 
-const Server_login = 'http://192.168.8.101/usave/login.php';
+const Server_login = 'http://192.168.2.82/usave/login.php';
 
 
 const background = require('../../../images/shadow.png');

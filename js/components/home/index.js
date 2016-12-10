@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { TouchableOpacity,Alert,ListView,View,Text } from 'react-native';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
-import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Thumbnail ,Footer,FooterTab } from 'native-base';
+import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Thumbnail ,Footer,FooterTab,Card,CardItem } from 'native-base';
 
 
 import { Grid, Row } from 'react-native-easy-grid';
@@ -17,8 +17,8 @@ const Profile = require('../../../images/Profile.png');
 
 
 
-const Server_getaccountinfo = 'http://192.168.8.101/usave/accountinfo.php';
-const server_plans = 'http://192.168.8.101/usave/plan.php';
+const Server_getaccountinfo = 'http://192.168.2.82/usave/accountinfo.php';
+const server_plans = 'http://192.168.2.82/usave/plan.php';
 
 
 const {
@@ -135,13 +135,15 @@ class Home extends Component {
     let content
     switch(tab) {
       case 'Home':
-         content = <Text>This is the content Home</Text>
+         content = <View><Text>Balance: {this.state.bal}</Text><Text>Salary: {this.state.salary}</Text></View>
+
         break
       case 'Plans':
         content =  <View>
-        <Text>Plans</Text>
+       
        <View style={{}}>
-      <View style={{margin:20,flex:1,flexDirection: 'row',alignItems: 'center',justifyContent: 'center' }}>
+      <View style={{margin:10,flex:1, }}>
+       <Button style={{}} rounded> Add new Plan </Button>
       </View>
       <View style = {{backgroundColor: 'blue',padding:2,marginBottom:0}}>
       </View>
@@ -193,13 +195,17 @@ class Home extends Component {
   return (
       
       <Content style={{}}>
-      <View style={{flex:1,flexDirection: 'row',alignItems: 'center',justifyContent: 'center' }}>
+      <Card>
+      <CardItem>
       <Text style={{color:'black',marginLeft:10,marginRight:10,fontSize:20}}>{row.p_name}</Text>
-      <Text style={{color:'black',marginLeft:10,marginRight:10}}>{row.p_money_alot}</Text>
-      <Text style={{color:'black',marginLeft:10,marginRight:10}}>{row.p_total}</Text>
-      </View>
-      <View style = {{backgroundColor: 'blue',padding:2}}>
-      </View>
+      <Text style={{color:'black',marginLeft:10,marginRight:10}}>Alloted: {row.p_money_alot}</Text>
+      <Text style={{color:'black',marginLeft:10,marginRight:10}}>Goal: {row.p_total}</Text>
+      <Text style={{color:'black',marginLeft:10,marginRight:10}}>Saved: {row.p_saved}</Text>
+      <Text style={{color:'black',marginLeft:10,marginRight:10}}>Percent: {row.percent}</Text>
+      <Text style={{color:'black',marginLeft:10,marginRight:10}}>Remaining Amount: {row.kulang}</Text>
+      <Text style={{color:'black',marginLeft:10,marginRight:10}}>Remaining Month: {row.p_month}</Text>
+      </CardItem>
+      </Card>
       </Content>
       
     
@@ -235,8 +241,9 @@ class Home extends Component {
            
         })
         .done();  
-    
 
+
+         
   }
 
 
