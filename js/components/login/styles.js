@@ -21,19 +21,24 @@ module.exports = StyleSheet.create({
   },
   bg: {
     flex: 1,
-    marginTop: deviceHeight / 1.75,
+    marginTop: deviceHeight / 2.0,
     paddingTop: 20,
     paddingLeft: 10,
     paddingRight: 10,
-    paddingBottom: 80,
+    paddingBottom: 140,
     bottom: 0,
   },
   input: {
-    marginBottom: 20,
+    paddingLeft: 16,
+    marginRight: 20,
+    marginLeft: 20,
+    marginTop: 20,
+    backgroundColor: '#FBFAFA',
   },
   btn: {
-    marginTop: 20,
+    marginTop: 40,
+    width: 150,
     alignSelf: 'center',
-
+    backgroundColor: '#250f59',
   },
 });

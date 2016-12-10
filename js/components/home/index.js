@@ -134,7 +134,10 @@ class Home extends Component {
     let content
     switch(tab) {
       case 'Home':
-         content = <View><Text style={{fontSize:20}}>Balance: {this.state.bal}</Text><Text>Salary: {this.state.salary}</Text></View>
+         content = <View style={styles.homeContainer}>
+                      <Text style={styles.bal}>Balance: {this.state.bal}</Text>
+                      <Text>Salary: {this.state.salary}</Text>
+                    </View>
 
         break
       case 'Plans':

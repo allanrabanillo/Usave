@@ -87,11 +87,11 @@ trylogin() {
           <Content>
             <Image source={background} style={styles.shadow}>
               <View style={styles.bg}>
-                <InputGroup style={styles.input}>
+                <InputGroup borderType='rounded' style={styles.input}>
                   <Icon name="ios-person" />
                   <Input placeholder="EMAIL" onChangeText={acc_no => this.setState({ acc_no })} />
                 </InputGroup>
-                <InputGroup style={styles.input}>
+                <InputGroup borderType='rounded' style={styles.input}>
                   <Icon name="ios-unlock-outline" />
                   <Input
                     placeholder="PASSWORD"
