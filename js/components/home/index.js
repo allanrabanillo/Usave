@@ -165,7 +165,7 @@ class Home extends Component {
                       <List>    
                        <ListItem iconLeft>      
                        <Icon name="ios-power" style={{ color: '#6bb3b5' }} />             
-                          <Text style={styles.bal}>Montly Salary</Text>
+                          <Text style={styles.bal}>Monthly Salary</Text>
                           <Text note style={styles.amount}>{this.state.pa_bal}</Text>
                         </ListItem>
                         </List>
@@ -462,7 +462,7 @@ class Home extends Component {
 
           {this.renderTitle()}
           <Button transparent onPress={() => this.toggleTab5()}>
-            <Icon name="ios-home-outline" />
+            <Text style={{fontSize:60}}>+</Text>
           </Button>
         </Header>
 
