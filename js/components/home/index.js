@@ -22,6 +22,8 @@ import styles from './styles';
 const delete_ = 'http://192.168.2.82/usave/delete.php';
 const Server_getaccountinfo = 'http://192.168.2.82/usave/accountinfo.php';
 const server_plans = 'http://192.168.2.82/usave/plan.php';
+const server_newplans = 'http://192.168.2.82/usave/newplan.php';
+const server_scatter = 'http://192.168.2.82/usave/scatter.php';
 
 
 const {
@@ -58,7 +60,10 @@ class Home extends Component {
       salary: '',
       pa_bal: '',
       pid: '',
-
+      n_pid: '',
+      n_palot: '',
+      n_ptotal: '',
+      n_pname: '',
       dataSource: ds.cloneWithRows([
             'row 1', 'row2'
          ])
@@ -68,17 +73,7 @@ class Home extends Component {
 
     this.getAccountinfo();
 
-    fetch(server_plans + '?acc_no=' + this.props.name)
-      .then((response) => response.json())
-      .then((responseData) => {
-        
-        for (var i = 0; i < responseData.length; i++)
-          {
-              this.setState({ dataSource: this.state.dataSource.cloneWithRows(responseData)});
-          }         
-           
-        })
-        .done();  
+    
   }
 
 
@@ -145,6 +140,8 @@ class Home extends Component {
 
 
 
+  
+
   // render value
 
     renderContent() {
@@ -168,7 +165,7 @@ class Home extends Component {
                       <List>    
                        <ListItem iconLeft>      
                        <Icon name="ios-power" style={{ color: '#6bb3b5' }} />             
-                          <Text style={styles.bal}>Payroll Account</Text>
+                          <Text style={styles.bal}>Montly Salary</Text>
                           <Text note style={styles.amount}>{this.state.pa_bal}</Text>
                         </ListItem>
                         </List>
@@ -177,11 +174,13 @@ class Home extends Component {
                       <List>    
                        <ListItem iconLeft>    
                        <Icon name="ios-power" style={{ color: '#81b64c' }} />               
-                          <Text style={styles.bal}>Monthly Salary</Text>
+                          <Text style={styles.bal}>Unbudget Balance</Text>
                           <Text note style={styles.amount}>{this.state.salary}</Text>
                         </ListItem>
                         </List>
                       </CardItem>
+                      <Button block style={{ marginBottom: 20, marginRight: 50, marginLeft: 50}} onPress={() => this.startbudget()}>Save</Button>
+
                       </Card>
                     </View>
 
@@ -295,6 +294,29 @@ class Home extends Component {
 
   }
 
+  //scatter.php
+  startbudget(){
+
+    fetch(server_scatter + '?acc_no=' + this.props.name + '&p_salary=' + this.state.pa_bal)
+      .then((response) => response.json())
+      .then((responseData) => {
+        const emessage = responseData.emessage;
+         Alert.alert('','Distribution Successfully');
+
+
+      })
+      .done();
+
+  }
+
+
+  //new plan 
+  newplan(){
+
+    
+
+  }
+
   //render plans
   renderRow(row) {
   return (
@@ -335,7 +357,7 @@ class Home extends Component {
       <ListItem iconLeft>
       <Icon name="ios-power" style={{ color: '#FFF' }} />
       <Text style={{color:'black',marginRight:10,fontSize:20}}>Alloted:</Text>
-      <Text note style={{color:'black',fontSize:20}}>{row.p_money_alot}</Text>
+      <Text note style={{color:'black',fontSize:20}}>{row.p_money_alot}%</Text>
       </ListItem>
       </List>
 
