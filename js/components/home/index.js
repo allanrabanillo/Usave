@@ -178,9 +178,8 @@ class Home extends Component {
                           <Text note style={styles.amount}>{this.state.salary}</Text>
                         </ListItem>
                         </List>
+                        <Button block style={{ marginBottom: 20, marginRight: 50, marginLeft: 50}} onPress={() => this.startbudget()}>Distribute</Button>
                       </CardItem>
-                      <Button block style={{ marginBottom: 20, marginRight: 50, marginLeft: 50}} onPress={() => this.startbudget()}>Save</Button>
-
                       </Card>
                     </View>
 
@@ -297,7 +296,7 @@ class Home extends Component {
   //scatter.php
   startbudget(){
 
-    fetch(server_scatter + '?acc_no=' + this.props.name + '&p_salary=' + this.state.pa_bal)
+    fetch(server_scatter + '?acc_no=' + this.props.name + '&p_salary=' + this.state.salary)
       .then((response) => response.json())
       .then((responseData) => {
         const emessage = responseData.emessage;
