@@ -178,7 +178,7 @@ class Home extends Component {
                           <Text note style={styles.amount}>{this.state.salary}</Text>
                         </ListItem>
                         </List>
-                        <Button block style={{ marginBottom: 20, marginRight: 50, marginLeft: 50}} onPress={() => this.startbudget()}>Distribute</Button>
+                        <Button block style={{ marginBottom: 20, marginRight: 50, marginLeft: 50}}>Distribute</Button>
                       </CardItem>
                       </Card>
                     </View>
@@ -209,24 +209,24 @@ class Home extends Component {
                      <List>
                         <ListItem style={{padding: 20}}>
                             <InputGroup >
-                                <Input inlineLabel label="Plan Name" />
+                                <Input inlineLabel label="Plan Name" onChangeText={(e) => this.setState({n_pname:e})}/>
                             </InputGroup>
                         </ListItem>
                     
                         <ListItem style={{padding: 10}}>
                             <InputGroup>
                                 <Icon name="ios-clipboard-outline" style={{ color: 'blue' }} />
-                                <Input inlineLabel label="Money Allot" placeholder="Money Allot" />
+                                <Input inlineLabel label="Money Allot" placeholder="Money Allot" onChangeText={(e) => this.setState({n_palot:e})} />
                             </InputGroup>
                         </ListItem>
                         <ListItem style={{padding: 10}}>
                             <InputGroup>
                                 <Icon name="ios-clipboard-outline" style={{ color: 'blue' }} />
-                                <Input inlineLabel label="Total Amount" placeholder="Total Amount" secureTextEntry />
+                                <Input inlineLabel label="Total Amount" placeholder="Total Amount" onChangeText={(e) => this.setState({n_ptotal:e})}/>
                             </InputGroup>
                         </ListItem>
-                        <Button block style={{backgroundColor: '#250f59', marginTop: 130, marginBottom: 20, marginRight: 50, marginLeft: 50}}>Cancel</Button>
-                        <Button block style={{backgroundColor: '#250f59', marginBottom: 20, marginRight: 50, marginLeft: 50}}>Save</Button>
+                        <Button block style={{backgroundColor: '#250f59', marginTop: 130, marginBottom: 20, marginRight: 50, marginLeft: 50}} onPress={()=>this.toggleTab1()}>Cancel</Button>
+                        <Button block style={{backgroundColor: '#250f59', marginBottom: 20, marginRight: 50, marginLeft: 50}} onPress={()=>this.newplan()}>Save</Button>
                     </List>
                   </View>
       break
@@ -266,7 +266,7 @@ class Home extends Component {
 
 
 
-    fetch(delete_ + '?acc_no=' + this.props.name + '&plan_id=' + this.state.pid )
+    fetch(delete_ + '?plan_id=' + this.state.pid )
       .then((response) => response.json())
       .then((responseData) => {
         const emessage = responseData.emessage;
@@ -311,8 +311,15 @@ class Home extends Component {
 
   //new plan 
   newplan(){
+    fetch(server_newplans + '?acc_no=' + this.props.name + '&pname=' + this.state.n_pname + '&pmoneyalot=' + this.state.n_palot + '&ptotal=' + this.state.n_ptotal)
+      .then((response) => response.json())
+      .then((responseData) => {
+        const emessage = responseData.emessage;
+        Alert.alert('','Plan Created Successfully');
 
-    
+         })
+        .done();  
+        
 
   }
 
