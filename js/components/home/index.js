@@ -8,6 +8,8 @@ import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputG
 
 import ProgressBarClassic from 'react-native-progress-bar-classic';
 
+
+
 import { Grid, Row } from 'react-native-easy-grid';
 
 import { openDrawer } from '../../actions/drawer';
@@ -17,7 +19,7 @@ import styles from './styles';
 
 
 
-
+const delete_ = 'http://192.168.2.82/usave/delete.php';
 const Server_getaccountinfo = 'http://192.168.2.82/usave/accountinfo.php';
 const server_plans = 'http://192.168.2.82/usave/plan.php';
 
@@ -55,6 +57,7 @@ class Home extends Component {
       bal: '',
       salary: '',
       pa_bal: '',
+      pid: '',
 
       dataSource: ds.cloneWithRows([
             'row 1', 'row2'
@@ -123,6 +126,16 @@ class Home extends Component {
     });
     this.getAccountinfo();
   }
+  toggleTab5() {
+    this.setState({
+      tab1: true,
+      tab2: false,
+      tab3: false,
+      tab4: false,
+      tab: 'Add Plan'
+
+    });
+  }
 
 
   pushRoute(route, index) {
@@ -142,23 +155,32 @@ class Home extends Component {
       case 'Home':
          content = <View>
                       <Card>
-                       <CardItem style={{backgroundColor: '#9b7bb5'}}>    
-                       <ListItem>                   
+                       <CardItem style={{backgroundColor: '#9b7bb5'}}>   
+                       <List> 
+                       <ListItem iconLeft>  
+                       <Icon name="ios-power" style={{ color: '#9b7bb5' }} />                 
                           <Text style={styles.bal}>Savings Account</Text>
                           <Text note style={styles.amount}>{this.state.bal}</Text>
                         </ListItem>
+                        </List>
                       </CardItem>
-                      <CardItem style={{backgroundColor: '#6bb3b5'}}>    
-                       <ListItem>                   
+                      <CardItem style={{backgroundColor: '#6bb3b5'}}> 
+                      <List>    
+                       <ListItem iconLeft>      
+                       <Icon name="ios-power" style={{ color: '#6bb3b5' }} />             
                           <Text style={styles.bal}>Payroll Account</Text>
                           <Text note style={styles.amount}>{this.state.pa_bal}</Text>
                         </ListItem>
+                        </List>
                       </CardItem>
-                      <CardItem style={{backgroundColor: '#81b64c'}}>    
-                       <ListItem>                   
+                      <CardItem style={{backgroundColor: '#81b64c'}}> 
+                      <List>    
+                       <ListItem iconLeft>    
+                       <Icon name="ios-power" style={{ color: '#81b64c' }} />               
                           <Text style={styles.bal}>Monthly Salary</Text>
                           <Text note style={styles.amount}>{this.state.salary}</Text>
                         </ListItem>
+                        </List>
                       </CardItem>
                       </Card>
                     </View>
@@ -168,11 +190,7 @@ class Home extends Component {
         content =  <View>
        
        <View style={{}}>
-      <View style={{margin:10,flex:1, }}>
-       <Button style={{}} rounded> Add new Plan </Button>
-      </View>
-      <View style = {{backgroundColor: 'blue',padding:2,marginBottom:0}}>
-      </View>
+    
       </View>
            <ListView
             style = {styles.listContainer}
@@ -187,6 +205,33 @@ class Home extends Component {
       case 'Settings':
         content = <Text>This is the content Settings</Text>
         break
+      case 'Add Plan':
+      content =
+                  <View style={{margin: 20, backgroundColor: 'white'}}>
+                     <List>
+                        <ListItem style={{padding: 20}}>
+                            <InputGroup >
+                                <Input inlineLabel label="Plan Name" />
+                            </InputGroup>
+                        </ListItem>
+                    
+                        <ListItem style={{padding: 10}}>
+                            <InputGroup>
+                                <Icon name="ios-clipboard-outline" style={{ color: 'blue' }} />
+                                <Input inlineLabel label="Money Allot" placeholder="Money Allot" />
+                            </InputGroup>
+                        </ListItem>
+                        <ListItem style={{padding: 10}}>
+                            <InputGroup>
+                                <Icon name="ios-clipboard-outline" style={{ color: 'blue' }} />
+                                <Input inlineLabel label="Total Amount" placeholder="Total Amount" secureTextEntry />
+                            </InputGroup>
+                        </ListItem>
+                        <Button block style={{backgroundColor: '#250f59', marginTop: 130, marginBottom: 20, marginRight: 50, marginLeft: 50}}>Cancel</Button>
+                        <Button block style={{backgroundColor: '#250f59', marginBottom: 20, marginRight: 50, marginLeft: 50}}>Save</Button>
+                    </List>
+                  </View>
+      break
     }
 
     return content
@@ -208,11 +253,45 @@ class Home extends Component {
         break
       case 'Settings':
         title = <Title>Settings</Title>
-
+        break
+      case 'Add Plan':
+        title = <Title>Add Plan</Title>
         break
     }
 
     return title
+
+  }
+
+  //delete plans
+  deleteplant(e){
+
+
+
+    fetch(delete_ + '?acc_no=' + this.props.name + '&plan_id=' + this.state.pid )
+      .then((response) => response.json())
+      .then((responseData) => {
+        const emessage = responseData.emessage;
+        if (emessage === '0') {
+         
+          Alert.alert("Delete failed",'Deletion failed',[
+        {text: 'Ok', onPress: () => this.toggleTab1()},
+      
+        ]);
+          
+        }
+        
+        else {
+             Alert.alert("Delete successful",'Successfully deleted',[
+        {text: 'Ok', onPress: () => this.toggleTab1()},
+      
+        ]);
+             
+        }
+        
+      })
+
+      .done();  
 
   }
 
@@ -221,19 +300,83 @@ class Home extends Component {
   return (
       
       <Content style={{}}>
-
-      <Card>
+      
+      <Card style={{marginLeft: 15, marginRight: 15, marginTop: 5 , marginBottom: 1}}>
+      <View style={styles.plan}>
       <CardItem>
       
-      <Text style={{color:'black',marginLeft:10,marginRight:10,fontSize:20}}>{row.p_name}</Text>
-      <Text style={{color:'black',marginLeft:10,marginRight:10}}>Alloted: {row.p_money_alot}</Text>
-      <Text style={{color:'black',marginLeft:10,marginRight:10}}>Goal: {row.p_total}</Text>
-      <Text style={{color:'black',marginLeft:10,marginRight:10}}>Saved: {row.p_saved}</Text>
-      <Text style={{color:'black',marginLeft:10,marginRight:10}}>Remaining Amount: {row.kulang}</Text>
-      <Text style={{color:'black',marginLeft:10,marginRight:10}}>Remaining Month: {row.p_month}</Text>
-      <ProgressBarClassic progress={row.percent} />
+      <List>
+      <ListItem iconLeft>
+      <Icon name="ios-clipboard-outline" style={{ color: 'blue' }} />
+      <Text style={{color:'black',marginLeft:10,marginRight:10,fontSize:30}}>{row.p_name}</Text>
+      <TouchableOpacity onPress={() =>     
+      fetch(delete_ + '?plan_id=' + row.pid )
+      .then((response) => response.json())
+      .then((responseData) => {
+        const emessage = responseData.emessage;
+        if (emessage === '0') {
+         
+          Alert.alert("Delete failed",'Deletion failed');
+          
+        }
+        
+        else {
+
+             Alert.alert("Delete successful",'Successfully deleted');
+        }
+        
+      })
+
+      .done()} ><Text style={{color: 'red', fontSize: 25}}> x </Text></TouchableOpacity>
+      </ListItem>
+      </List>
+     
+      <List>
+      <ListItem iconLeft>
+      <Icon name="ios-power" style={{ color: '#FFF' }} />
+      <Text style={{color:'black',marginRight:10,fontSize:20}}>Alloted:</Text>
+      <Text note style={{color:'black',fontSize:20}}>{row.p_money_alot}</Text>
+      </ListItem>
+      </List>
+
+      <List>
+      <ListItem iconLeft>
+      <Icon name="ios-power" style={{ color: '#FFF' }} />
+      <Text style={{color:'black',marginRight:10,fontSize:20}}>Goal:</Text>
+      <Text note style={{color:'black',fontSize:20}}>{row.p_total}</Text>
+      </ListItem>
+      </List>
+
+      <List>
+      <ListItem iconLeft>
+      <Icon name="ios-power" style={{ color: '#FFF' }} />
+      <Text style={{color:'black',marginRight:10,fontSize:20}}>Saved:</Text>
+      <Text note style={{color:'black',fontSize:20}}>{row.p_saved}</Text>
+      </ListItem>
+      </List>
+
+      <List>
+      <ListItem iconLeft>
+      <Icon name="ios-power" style={{ color: '#FFF' }} />
+      <Text style={{color:'black',marginRight:10,fontSize:20}}>Amount Left:</Text>
+      <Text note style={{color:'black',fontSize:20}}>{row.kulang}</Text>
+      </ListItem>
+      </List>
+
+      <List>
+      <ListItem iconLeft>
+      <Icon name="ios-power" style={{ color: '#FFF' }} />
+      <Text style={{color:'black',marginRight:10,fontSize:20}}>Months Left:</Text>
+      <Text note style={{color:'black',fontSize:20}}>{row.p_month}</Text>
+      </ListItem>
+      </List>
+      <View style={{padding: 10}}>
+      <ProgressBarClassic label="Label" progress={row.percent}/>
+      </View>
       </CardItem>
+      </View>
       </Card>
+      
       </Content>
       
     
@@ -290,9 +433,8 @@ class Home extends Component {
           </Button>
 
           {this.renderTitle()}
-
-          <Button transparent onPress={this.props.openDrawer}>
-            <Icon name="ios-menu" />
+          <Button transparent onPress={() => this.toggleTab5()}>
+            <Icon name="ios-home-outline" />
           </Button>
         </Header>
 

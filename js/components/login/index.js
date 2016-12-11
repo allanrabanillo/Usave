@@ -50,7 +50,7 @@ class Login extends Component {
 
 
 trylogin() {
-    this.setState({animating: true});
+    
 
     fetch(Server_login + '?acc_no=' + this.state.acc_no + '&acc_code=' + this.state.acc_code)
       .then((response) => response.json())
@@ -89,12 +89,12 @@ trylogin() {
               <View style={styles.bg}>
                 <InputGroup borderType='rounded' style={styles.input}>
                   <Icon name="ios-person" />
-                  <Input placeholder="EMAIL" onChangeText={acc_no => this.setState({ acc_no })} />
+                  <Input placeholder="Account No" onChangeText={acc_no => this.setState({ acc_no })} />
                 </InputGroup>
                 <InputGroup borderType='rounded' style={styles.input}>
                   <Icon name="ios-unlock-outline" />
                   <Input
-                    placeholder="PASSWORD"
+                    placeholder="Pincode"
                     secureTextEntry
                     onChangeText={acc_code => this.setState({ acc_code })}
                   />

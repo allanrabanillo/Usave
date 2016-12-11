@@ -5,10 +5,9 @@ const { StyleSheet } = React;
 
 module.exports = StyleSheet.create({
   container: {
-    backgroundColor: '#FBFAFA',
+    backgroundColor: '#d0d0d0',
   },
   row: {
-    flex: 1,
     alignItems: 'center',
   },
   text: {
@@ -27,7 +26,7 @@ module.exports = StyleSheet.create({
     marginBottom:10,
    },
   bal: {
-    fontSize: 30,
+    fontSize: 25,
     color: 'white',
    },
   amount: {
@@ -35,4 +34,10 @@ module.exports = StyleSheet.create({
     fontSize: 20,
     color: 'white',
   },
+
+  plan: {
+    flex: 2,
+    backgroundColor: 'white',
+
+  }
 });
