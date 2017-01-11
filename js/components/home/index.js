@@ -216,7 +216,7 @@ class Home extends Component {
                         <ListItem style={{padding: 10}}>
                             <InputGroup>
                                 <Icon name="ios-clipboard-outline" style={{ color: 'blue' }} />
-                                <Input inlineLabel label="Money Allot" placeholder="Money Allot" onChangeText={(e) => this.setState({n_palot:e})} />
+                                <Input inlineLabel label="Money Allot" placeholder="Percent" onChangeText={(e) => this.setState({n_palot:e})} />
                             </InputGroup>
                         </ListItem>
                         <ListItem style={{padding: 10}}>
